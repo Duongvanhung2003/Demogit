@@ -1,7 +1,10 @@
 import { StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input, Button } from "react-native-elements";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { authentication } from "../firebase/firebaseconfig";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase/firebaseconfig";
 export default function Register(){
     const [email, setEmail] =useState('');
     const [password, setPassword] =useState('');
@@ -10,10 +13,19 @@ export default function Register(){
     const registerUser= async ()=>{
         createUserWithEmailAndPassword(authentication, email, password)
         .then((userCredentials)=>{
-            console.log(userCredentials)
-            console.log('Just registered a user')
+            const userUID = userCredentials.user.uid;
+            const docRef = doc(db, 'users', userUID);
+            const docSnap = setDoc(docRef,{
+                avaterUrl: avater ?  avater: "https://png.pngtree.com/png-vector/20191101/ourmid/pngtree-cartoon-color-simple-male-avatar-png-image_1934459.jpg" ,
+                username,
+                password,
+                userUID
+
         })
+        })
+        .then (()=> console.log('successful'))
     }
+    
     return(
         <View>
             <Input
