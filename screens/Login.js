@@ -18,10 +18,11 @@ export default function Login({navigation}){
                 navigation.navigate('Home')
             }
             else{
-                console.log('no user')
+                // console.log('no user')
+                navigation.canGoBack() && navigation.popToTop();
             }
         })
-    })
+    },[])
     return(
         <View>
             <Input
@@ -41,8 +42,10 @@ export default function Login({navigation}){
             secureTextEntry
             />
             <Button
-            
+            style={styles.btn}
             title="Login"
+            onPress={loginUser}
+
             />
             <Button
             style={styles.btn}
