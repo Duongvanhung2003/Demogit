@@ -34,7 +34,7 @@ export default function Home({ navigation }) {
     }, [])
     const renderItem = ({ item }) => (
         <ListItem
-            onPress={() => navigation.navigate('Chat', {name:item.username })}
+            onPress={() => navigation.navigate('Chat', {name:item.username, uid: item.userUID  })}
             title={item.username}
             subTitle={item.email}
             image={item.avaterUrl} />
